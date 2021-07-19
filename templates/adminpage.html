@@ -1,37 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin</title>
-
+  <meta charset="UTF-8">
+  <title>Student Home</title>
+  {% load static %}
+  <link rel="stylesheet" href="{% static 'afterlogin.css' %}">
 </head>
-
 <body>
-    <div>
-        <h1>Books</h1>
-        <a href="{% url 'addbook'%}"> Add Book</a>
-        <div>
-            <table>
-                <tr>
-                    <th>Book Name</th>
-                   
-                </tr>
-              
-                {% for book in books_list %}
-                <tr>
-                    <td> <a href="{% url 'updatebook'%}?id={{book.id}}"> {{book}}</a> </td>
-                    
-                </tr>
-                {% endfor %}
-
-            </table>
-
-        </div>
-    </div>
-</body>
-
-</html>
-
+  <header>    
+    <nav>
+      {% load static %}
+        <p class="name"><img class="logo" src="{% static 'open-book.jpg' %}" alt="open-book"> Cairo University Library</p>
+        <ul type="none">  
+            <li><a href="{% url 'afterlogin' %}"class="active">Home</a></li>
+            <li><a href="{% url 'updatebook' %}">Update</a></li>
+            <li><a href="">Books</a></li>
+            <li ><a href="{% url 'logout' %}">LogOut</a></li>  
+        </ul> 
+    </nav>
+  </header>
+ 
+  <div class="wrapper2"> 
+    <h1>welcome to our library!</h1>
+    <h2>Hello Admin !</h2>
+    <p>As you are An admin..you are now able to do some features, the features avaliable for you now.</p>
+    <button> <a href="{% url 'update' %}">Update info</a> </button>
+    <button> <a href="{% url 'addbook' %}">Add a Book</a></button>
+    <button><a href="{% url 'allbooks' %}"> View Books</a></button>
+  </div>
+ 

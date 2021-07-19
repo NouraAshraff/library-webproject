@@ -1,7 +1,7 @@
 <html>
     <head></head>
     <body>
-        <form action="{% url 'adminpage' %}" method="GET" id="addform" onsubmit="return addBook()">
+        <form action="{% url 'allbooks' %}" method="GET" id="addform" onsubmit="return addBook()">
             {% csrf_token %}
             <label for="bookname"> Book Name</label>
             <br>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Form</title>
+  {% load static %}
+  <link rel="stylesheet" href="{% static 'afterlogin.css' %}">
+</head>
+<body>
+  <header>    
+    <nav>
+      {% load static %}
+      <p class="name"><img class="logo" src="{% static 'open-book.jpg' %}" alt="open-book"> Cairo University Library</p>
+      <ul type="none">  
+        <li><a href="{% url 'afterlogin' %}">Home</a></li>
+        <li><a href="{% url 'update' %}" >Update</a></li>
+        <li><a href="">Books</a></li>
+        <li ><a href="{% url 'logout' %}" class="active">LogOut</a></li>  
+    </nav>
+  </header>
+  <div class="wrapper3">
+    <div class="title-text">
+      <div class="title login">
+        <img src="" alt=""> 
+    </div> <!--title text-->  
+    {% load static %}
+    <div class="form-container">
+      <img src="{% static 'out.png' %}" alt="out">  
+      <div class="form-inner">
+        <p>Are you sure you want to log out!</p>
+        <button> <a href="{% url 'afterlogin' %}"> back to home </a>  </button>
+        <button><a href="{% url 'home' %}"> LogOut </a> </button>  
+      </div> 
+    </div>
+  </div>
+
+ 
+
+</body>
+</html>

@@ -1,13 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Student</title>
+  <meta charset="UTF-8">
+  <title>Student Home</title>
+  {% load static %}
+  <link rel="stylesheet" href="{% static 'afterlogin.css' %}">
 </head>
 <body>
-    <h1>hi student</h1> <br>
-    <p> You are logged in</p>
+  <header>    
+    <nav>
+        {% load static %}
+        <p class="name"><img class="logo" src="{% static 'open-book.jpg' %}" alt="open-book"> Cairo University Library</p>
+        <ul type="none">  
+            <li><a href="{% url 'afterlogin' %}"class="active">Home</a></li>
+            <li><a href="{% url 'update' %}">Update</a></li>
+            <li><a href="">Books</a></li>
+            <li ><a href="{% url 'logout' %}">LogOut</a></li>  
+        </ul>    
+    </nav>
+  </header>
+
+  <div class="wrapper2"> 
+    <h1>welcome to our library!</h1>
+    <h2>Hello Student !</h2>
+    <p>As you are Student..you are now able to do some features, the features avaliable for you now.</p>
+    <button> <a href="{% url 'update' %}">Update info</a> </button>
+    <button>Show All Books</button>
+  </div>
+ 
 </body>
 </html>

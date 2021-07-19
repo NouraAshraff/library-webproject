@@ -25,13 +25,16 @@ def login(request):
   elif request.POST.get('ToLogin'): 
     username = request.POST.get('username')
     password = request.POST.get('password')
-    student_list=Student.objects.all()
+    student_list = Student.objects.all()
+    found = False
     for s in student_list:
       if s.username == username and s.password == password:
-        return redirect('afterlogin')
-      
-    messages.info(request,'Invalid username or password')
-    return redirect('login')
+        found = True
+    if found == True:
+      return redirect('afterlogin')
+    else:
+        messages.info(request,'Invalid username or password')
+        return redirect('login')  
 
   else:
     return render(request, 'login.html')
@@ -39,9 +42,47 @@ def login(request):
 def afterlogin(request):
   return render(request, 'afterlogin.html')
 
+def update(request):
+  if request.POST.get('updateUsername'):
+    username1 = request.POST.get('username1')
+    username2 = request.POST.get('username2')
+    if Student.objects.filter(username = username2).exists():
+        messages.info(request, 'Error : Username is already exist')
+    else:
+      student_list = Student.objects.all()
+      for s in student_list:
+        if s.username == username1:
+          s.username = username2
+          s.save()
+      messages.info(request, 'Updated successfully....')
+    return redirect('update')
+
+  elif request.POST.get('updateAdminUsername'):
+    username1 = request.POST.get('username1')
+    username2 = request.POST.get('username2')
+    if Admin.objects.filter(username = username2).exists():
+        messages.info(request, 'Error : Username is already exist')
+    else:
+      admin_list = Student.objects.all()
+      for a in admin_list:
+        if a.username == username1:
+          a.username = username2
+          a.save()
+      messages.info(request, 'Updated successfully....')
+    return redirect('update')
+
+  else:
+    return render(request, 'update.html')
+
+  
+
+
+def logout(request):
+  return render(request, 'logout.html')
 
 
 def adminlogin(request):
+  
   if request.POST.get('ToSignup'):
     username = request.POST.get('username')
     password = request.POST.get('password')
@@ -57,14 +98,22 @@ def adminlogin(request):
   elif request.POST.get('ToLogin'): 
     username = request.POST.get('username')
     password = request.POST.get('password')
-    for a in Admin.objects.all():
+    admin_list = Admin.objects.all()
+    found = False
+    for a in admin_list:
       if a.username == username and a.password == password:
-        return redirect('adminpage')
-    messages.info(request,'Invalid username or password')
-    return redirect('adminlogin')
+        found = True   
+    if found == True:
+      return redirect('adminpage')
+    else:
+        messages.info(request,'Invalid username or password')
+        return redirect('adminlogin')
 
   else:
     return render(request, 'adminlogin.html')
+
+
+
 ######################
 
 
@@ -124,9 +173,12 @@ def updateBook(request):
       "book": bookObj
     })
 
+def allBooks(request) :
+  return render(request,'allbooks.html')
 
 ##################
 def Borrow (request):
+ 
   Book.isBorrowed=1
   return
 
