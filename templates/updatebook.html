@@ -1,0 +1,109 @@
+<html>
+    <head></head>
+    <body>
+        <form action="#" method="POST" onsubmit="return updateBook()">
+            {% csrf_token %}
+            <label for="bookname"> Book Name</label>
+            <br>
+            <input type="text" id="bookname" name="bookname" value="{{ book.BookName }}">
+            <br> <br>
+
+            <label for="authname"> Author Name</label>
+            <br>
+            <input type="text" id="authname" name="authname" value="{{ book.AuthorName }}">
+            <br> <br>
+
+            <label for="isbn">ISBN</label>
+            <br>
+            <input type="number" id="isbn" name="isbn" value="{{ book.ISBN }}">
+            <br> <br>
+
+            <label for="isborrowed">Is Borrowed</label>
+            <input type="checkbox" id="isborrowed" name="isborrowed" {% if book.isBorrowed %} checked {% endif %}>
+            <br> <br>
+
+            <label for="borrowingperiod"> Borrowing Period</label>
+            <br>
+            <input type="number" id="borrowingperiod" name="borrowingperiod" value="{{ book.borrowingPeriod }}">
+            <br> <br>
+
+            <label for="publicationyear"> Publication Date</label>
+            <br>
+            Old Date: {{ book.PublicationYear }}
+            <br>
+            New Date:
+            <input type="date" id="publicationyear" name="publicationyear" value="{{ book.PublicationYear }}">
+            <br> <br>
+            <button type="submit">Save Changes</button>
+        </form>
+        <div id="output">
+
+        </div>
+        <script>
+            function updateBook(){
+                var bookname = document.getElementById("bookname").value
+                var authname = document.getElementById("authname").value
+                var isbn = document.getElementById("isbn").value
+                var isborrowed = document.getElementById("isborrowed").checked
+                var borrowingperiod = parseInt(document.getElementById("borrowingperiod").value)
+                var publicationyear = document.getElementById("publicationyear").value
+                var csrfmiddlewaretoken = document.getElementsByName("csrfmiddlewaretoken")[0].value
+
+                if(!validateNotEmpty(bookname)) {
+                    alert("Book name can't be empty")
+                    return false;
+                }
+
+                if(!validateNotEmpty(authname)) {
+                    alert("Author name can't be empty")
+                    return false;
+                }
+
+                if(!validateNumNotNegative(isbn)) {
+                    alert("ISBN can't be less than zero")
+                    return false;
+                }
+
+                if(!validateNumNotNegative(borrowingperiod)) {
+                    alert("Borrowing Period can't be less than zero")
+                    return false;
+                }
+
+                if(!validateNotEmpty(publicationyear)) {
+                    alert("Publication year can't be empty")
+                    return false;
+                }
+
+                const xhttp = new XMLHttpRequest();
+                xhttp.onload = function() {
+                    document.getElementById("output").innerHTML = this.responseText;
+                }
+                xhttp.open("POST", "{% url 'updatebook' %}?id={{ book.id }}", true);
+                xhttp.setRequestHeader("Content-type", "application/json");
+                xhttp.setRequestHeader('X-CSRFToken', csrfmiddlewaretoken);
+                var content = JSON.stringify({
+                    "bookname": bookname,
+                    "authname": authname,
+                    "isbn": isbn,
+                    "isborrowed": isborrowed,
+                    "borrowingperiod": borrowingperiod,
+                    "publicationyear": publicationyear,
+                });
+                xhttp.send(content);
+                return false;
+            }
+
+            function validateNotEmpty(str) {
+                if(str) {
+                    return true
+                }
+
+                return false
+            }
+
+            function validateNumNotNegative(num) {
+                return ! (num = NaN || !num || num < 0)
+            }
+        </script>
+    </body>
+</html>

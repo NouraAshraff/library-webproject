@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Form</title>
+  {% load static %}
+  <link rel="stylesheet" href="{% static 'login.css' %}">
+</head>
+<body>
+  <header>    
+    <nav>
+      {% load static %}
+        <p class="name"><img class="logo" src="{% static 'open-book.jpg' %}" alt="open-book"> Cairo University Library</p>
+        <ul type="none">  
+            <li><a href="{% url 'home' %}">Home</a></li>
+            <li><a href="{% url 'login' %}">Student</a></li>
+            <li><a href="{% url 'adminlogin' %}" class="active">Admin</a></li>
+        </ul>    
+    </nav>
+  </header>
+  <div class="wrapper">
+    <div class="title-text">
+      <div class="title login">
+        Admin Login
+      </div>
+      <div class="title signup" >
+        Admin Sign Up
+      </div>
+    </div> <!--title text-->  
+    <div class="form-container">
+      <div class="slide-control">
+        <input type="radio" name="slide" id="login" checked>
+        <input type="radio" name="slide" id="signup">
+        <label for="login" class="slide login">Login</label>
+        <label for="signup" class="slide signup">Sign up</label>
+        <div class="slide-tab"></div>
+      </div> 
+      <div class="form-inner">
+        <form action="{% url 'adminlogin'%}" class="login" method="POST">
+          <div>
+            {% for message in messages %}
+            <h5 style="color:red;"> {{message}} </h5> 
+            {% endfor %} 
+          </div>
+          {% csrf_token %}
+          <div class="field">
+            <input type="text" name="username" placeholder="Admin Username" required>
+          </div>
+          <div class="field">
+            <input type="password" name="password" placeholder="Admin Password" required>
+          </div>
+          <div class="pass-link">
+            <a href="#">Forgot Password? </a>
+          </div>
+          <div class="field-btn">
+            <div class="btn-layer"></div>
+            <input type="submit" value="Login" name="ToLogin">
+          </div>
+          <div class="signup-link">
+            Don't have an account? <a href="">SignUp now</a>
+          </div>
+        </form>
+        
+        <form action="{% url 'adminlogin'%}" class="signup" id="form" method="POST">
+          
+          {% csrf_token %}
+          <div class="field">
+            <input type="text" name="username" placeholder="Admin Username" id="username" required>
+          </div>
+          <div class="field">
+            <input type="password" name="password" placeholder="Admin Password" id="password" required>
+          </div>
+          <div class="field">
+            <input type="password" placeholder="confirm password" id="confpass" required>
+          </div>
+          <div class="field-btn">
+            <div class="btn-layer"></div>
+            <input type="submit" value="Sign Up" name="ToSignup">
+          </div>
+        </form>
+      </div> 
+    </div>
+  </div>
+
+  <script>
+    const loginForm = document.querySelector("form.login");
+    const signupForm = document.querySelector("form.signup");
+    const loginBtn = document.querySelector("label.login");
+    const signupBtn = document.querySelector("label.signup");
+    const signupLink = document.querySelector("form .signup-link a");
+    const loginText = document.querySelector(".title-text .login");
+    const signupText = document.querySelector(".title-text .signup");
+    signupBtn.onclick = (()=>{
+      loginForm.style.marginLeft = "-50%";
+      loginText.style.marginLeft = "-50%";
+    });
+    loginBtn.onclick = (()=>{
+      loginForm.style.marginLeft = "0%";
+      loginText.style.marginLeft = "0%";
+    });
+    signupLink.onclick = (()=>{
+      signupBtn.click();
+      return false;
+    });
+    const form = document.getElementById('form');
+    form.addEventListener('submit', (e) =>{
+      checkInput();
+    });
+
+    function checkInput(){
+      var username = document.getElementById('username').value;
+      var password = document.getElementById('password').value;
+      var password2 = document.getElementById('confpass').value;
+      if(password == password2){
+        if (password.length < 6) {
+          alert("Error: Password must contain at least six characters!");
+          document.getElementById("passward").focus();
+          return false;
+        }
+        if (password == username) {
+          alert("Error: Password must be different from Username!");
+          document.getElementById("password").focus();
+          return false;
+        }
+        re = /[0-9]/;
+        if (!re.test(password)) {
+          alert("Error: password must contain at least one number (0-9)!");
+          document.getElementById("password").focus();
+          return false;
+        }
+        re = /[a-z]/;
+        if (!re.test(password)) {
+          alert("Error: password must contain at least one character (a-z)!");
+          document.getElementById("password").focus();
+          return false;
+        }
+      }
+      else {
+        alert("Error: Please check that password and confirmed password are match!");
+        document.getElementById("password").focus();
+        return false;
+      } 
+      return true;
+    }
+
+  </script>
+
+</body>
+</html>

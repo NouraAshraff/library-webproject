@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">  
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" >
+    <title>University Library</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'home.css' %}">
+    
+</head>
+<body>
+    <header>    
+        <nav>
+            {% load static %}
+            <p class="name"><img class="logo" src="{% static 'open-book.jpg' %}" alt="open-book"> Cairo University Library</p>
+            <ul type="none">  
+                <li><a href="{% url 'home' %}" class="active">Home</a></li>
+                <li><a href="{% url 'login' %}">Student</a></li>
+                <li><a href="{% url 'adminlogin' %}">Admin</a></li>
+            </ul>    
+        </nav>
+    </header>
+    <div class="welcome">
+        <p>
+            Welcome to Cairo University Online Library 
+        </p>
+    </div>
+</body>
+</html>
